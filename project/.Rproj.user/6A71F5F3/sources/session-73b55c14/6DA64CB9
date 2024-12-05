@@ -1,0 +1,29 @@
+{
+    "id": "6DA64CB9",
+    "path": "/cloud/project/primer_parcial.Rmd",
+    "project_path": "primer_parcial.Rmd",
+    "type": "r_markdown",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1733108335198.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "187,0",
+        "scrollLine": "178",
+        "rmdVisualMode": "false",
+        "rmdVisualModeLocation": "2:0",
+        "rmdVisualCollapsedChunks": ""
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1733357512,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1733357512988,
+    "read_only": false,
+    "read_only_alternatives": []
+}

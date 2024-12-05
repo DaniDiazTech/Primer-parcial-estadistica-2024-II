@@ -1,0 +1,191 @@
+---
+title: "Primer parcial"
+author:
+- Daniel Libardo Diaz Gonzalez
+- Andres Felipe Leon Sanchez
+- Cristian Steven Motta Ojeda
+date: "`r Sys.Date()`"
+output:
+  html_document: 
+    toc: true
+    toc_float: true
+    number_sections: true
+  pdf_document:
+    toc: true
+    number_sections: true
+---
+
+```{r setup, include = FALSE}
+# Configuración de "knit"
+knitr::opts_chunk$set(echo = FALSE)
+
+# Carga de paquetes
+library(here)
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(knitr)
+
+# Carga de datos desde la base de datos
+data <- read_csv(here("data/base_estadistica_descriptiva.csv"))
+
+# Semilla con los números de identificación correspondientes
+set.seed(866)
+
+# Muestra con 100 registros
+sample_data <- sample_n(data, 100)
+```
+
+# Análisis de variables cualitativas
+
+## ¿Cuál es la proporción de estudiantes por cada nivel educativo?
+
+```{r education, echo=FALSE}
+# Frequency table for NivelEducativo
+frequency_table <- sample_data %>%
+  group_by(NivelEducativo) %>%
+  summarize(Count = n()) %>%
+  arrange(desc(Count))
+
+# Display the frequency table
+kable(frequency_table, caption = "Tabla de Frecuencia para Nivel Educativo")
+
+# Bar plot for NivelEducativo
+ggplot(frequency_table, aes(x = NivelEducativo, y = Count, fill = NivelEducativo)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Distribución de Personas por Nivel Educativo", 
+       x = "Nivel Educativo", 
+       y = "Cantidad de Personas") +
+  theme_minimal()
+```
+
+## ¿Qué porcentaje de las personas pertenece a cada género?
+
+```{r gender, echo=FALSE}
+# Calcular el porcentaje de personas por género
+gender_percentage <- sample_data %>%
+  group_by(Genero) %>%
+  summarize(Count = n()) %>%
+  mutate(Percentage = Count / sum(Count) * 100)
+
+# Ver la tabla de porcentaje
+kable(gender_percentage, caption = "Porcentaje de personas por género")
+
+# Crear gráfico de pastel
+ggplot(gender_percentage, aes(x = "", y = Percentage, fill = Genero)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar(theta = "y") +
+  labs(title = "Distribución de Personas por Género") +
+  theme_void() +
+  theme(legend.title = element_blank())
+```
+
+# Análisis de variables cualitativas discretas 
+
+## Media, mediana y desviación estandar de la variable Edad
+
+```{r age, echo=FALSE}
+# Calcular la media, mediana y desviación estándar de la variable Edad
+edad_stats <- sample_data %>%
+  summarize(
+    Media = mean(Edad, na.rm = TRUE),
+    Mediana = median(Edad, na.rm = TRUE),
+    DesviacionEstandar = sd(Edad, na.rm = TRUE)
+  )
+
+# Mostrar los resultados
+kable(edad_stats, caption = "Estadísticas de la variable Edad")
+
+```
+
+## ¿Cuántas personas tienen más de 3 hermanos?
+
+```{r siblings, echo=FALSE}
+# Filtrar las personas que tienen más de 3 hermanos
+personas_mas_3_hermanos <- sample_data %>%
+  filter(Hermanos > 3) %>%
+  summarize(Cantidad = n())
+
+# Crear el gráfico de barras
+ggplot(personas_mas_3_hermanos, aes(x = "Más de 3 Hermanos", y = Cantidad, fill = "Más de 3 Hermanos")) +
+  geom_bar(stat = "identity") +
+  labs(title = "Número de Personas con Más de 3 Hermanos",
+       x = "Número de Hermanos",
+       y = "Cantidad de Personas") +
+  scale_x_discrete(labels = c("Más de 3 Hermanos")) +
+  theme_minimal()
+```
+
+# Análisis de Variables Cuantitativas Continuas
+
+## Rango, varianza y coeficiente de variación de la variable IngresoMensual
+
+```{r summarize, echo=FALSE}
+# Cálculo del rango
+rango <- max(sample_data$IngresoMensual) - min(sample_data$IngresoMensual)
+
+# Cálculo de la varianza
+varianza <- var(sample_data$IngresoMensual)
+
+# Cálculo del coeficiente de variación
+desviacion_estandar <- sd(sample_data$IngresoMensual)
+media_ingreso <- mean(sample_data$IngresoMensual)
+coeficiente_variacion <- desviacion_estandar / media_ingreso
+
+# Mostrar los resultados
+rango
+varianza
+coeficiente_variacion
+```
+
+## Histograma de la variable Estatura
+
+Algo 
+
+## Media y el percentil 90 de la variable HorasDeTrabajo
+
+algo 
+
+# Comparaciones entre variables
+
+## Alturas promedio por género.
+
+algo 
+
+## Análisis de los ingresos promedio según el nivel educativo.
+
+algo
+
+## Horas de trabajo promedio entre personas con diferentes niveles educativos
+
+algo
+
+# Análisis gráfico
+
+## Diagrama de caja y bigotes para los ingresos mensuales por nivel educativo
+
+algo 
+
+## Relación entre edad y horas de trabajo con gráfico de dispersión
+
+algo
+
+# Análisis Conjunto
+
+## Tabla de doble entrada con distribución conjunta de Genero y NivelEducativo
+
+algo
+
+## Proporción de personas con más de 2 hermanos que tienen un ingreso mensual superior a $3000.
+
+algo 
+
+# Reflexión
+
+## ¿Qué variables parecen tener mayor relación con el ingreso mensual?
+
+algo 
+
+## Si quisieras predecir las HorasDeTrabajo de una persona basándote en otras variables, ¿qué variable(s) elegirías y por qué?
+
+algo
